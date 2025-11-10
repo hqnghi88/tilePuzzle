@@ -1,13 +1,13 @@
 //
-//  HoleMonsterUITestsLaunchTests.swift
-//  HoleMonsterUITests
+//  MyTilePuzzleUITestsLaunchTests.swift
+//  MyTilePuzzleUITests
 //
 //  Created by Huỳnh Quang Nghi on 28/8/25.
 //
 
 import XCTest
 
-final class HoleMonsterUITestsLaunchTests: XCTestCase {
+final class MyTilePuzzleUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

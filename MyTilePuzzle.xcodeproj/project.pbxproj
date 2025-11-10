@@ -17,52 +17,52 @@
 			containerPortal = 31F864A92E5FE0280012B56E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 31F864B02E5FE0280012B56E;
-			remoteInfo = HoleMonster;
+			remoteInfo = MyTilePuzzle;
 		};
 		31F864CC2E5FE02A0012B56E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 31F864A92E5FE0280012B56E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 31F864B02E5FE0280012B56E;
-			remoteInfo = HoleMonster;
+			remoteInfo = MyTilePuzzle;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		31F864B12E5FE0280012B56E /* HoleMonster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HoleMonster.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		31F864C12E5FE0290012B56E /* HoleMonsterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HoleMonsterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		31F864CB2E5FE02A0012B56E /* HoleMonsterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HoleMonsterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		31F864B12E5FE0280012B56E /* MyTilePuzzle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyTilePuzzle.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		31F864C12E5FE0290012B56E /* MyTilePuzzleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyTilePuzzleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		31F864CB2E5FE02A0012B56E /* MyTilePuzzleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyTilePuzzleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		31F864E52E5FE0D70012B56E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/System/Library/Frameworks/MapKit.framework; sourceTree = DEVELOPER_DIR; };
 		31F864E72E5FE0DE0012B56E /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/System/Library/Frameworks/SpriteKit.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		31F864E32E5FE0860012B56E /* Exceptions for "HoleMonster" folder in "HoleMonster" target */ = {
+		31F864E32E5FE0860012B56E /* Exceptions for "MyTilePuzzle" folder in "MyTilePuzzle" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 31F864B02E5FE0280012B56E /* HoleMonster */;
+			target = 31F864B02E5FE0280012B56E /* MyTilePuzzle */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		31F864B32E5FE0280012B56E /* HoleMonster */ = {
+		31F864B32E5FE0280012B56E /* MyTilePuzzle */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				31F864E32E5FE0860012B56E /* Exceptions for "HoleMonster" folder in "HoleMonster" target */,
+				31F864E32E5FE0860012B56E /* Exceptions for "MyTilePuzzle" folder in "MyTilePuzzle" target */,
 			);
-			path = HoleMonster;
+			path = MyTilePuzzle;
 			sourceTree = "<group>";
 		};
-		31F864C42E5FE02A0012B56E /* HoleMonsterTests */ = {
+		31F864C42E5FE02A0012B56E /* MyTilePuzzleTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = HoleMonsterTests;
+			path = MyTilePuzzleTests;
 			sourceTree = "<group>";
 		};
-		31F864CE2E5FE02A0012B56E /* HoleMonsterUITests */ = {
+		31F864CE2E5FE02A0012B56E /* MyTilePuzzleUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = HoleMonsterUITests;
+			path = MyTilePuzzleUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -97,9 +97,9 @@
 		31F864A82E5FE0280012B56E = {
 			isa = PBXGroup;
 			children = (
-				31F864B32E5FE0280012B56E /* HoleMonster */,
-				31F864C42E5FE02A0012B56E /* HoleMonsterTests */,
-				31F864CE2E5FE02A0012B56E /* HoleMonsterUITests */,
+				31F864B32E5FE0280012B56E /* MyTilePuzzle */,
+				31F864C42E5FE02A0012B56E /* MyTilePuzzleTests */,
+				31F864CE2E5FE02A0012B56E /* MyTilePuzzleUITests */,
 				31F864E42E5FE0D70012B56E /* Frameworks */,
 				31F864B22E5FE0280012B56E /* Products */,
 			);
@@ -108,9 +108,9 @@
 		31F864B22E5FE0280012B56E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				31F864B12E5FE0280012B56E /* HoleMonster.app */,
-				31F864C12E5FE0290012B56E /* HoleMonsterTests.xctest */,
-				31F864CB2E5FE02A0012B56E /* HoleMonsterUITests.xctest */,
+				31F864B12E5FE0280012B56E /* MyTilePuzzle.app */,
+				31F864C12E5FE0290012B56E /* MyTilePuzzleTests.xctest */,
+				31F864CB2E5FE02A0012B56E /* MyTilePuzzleUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -127,9 +127,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		31F864B02E5FE0280012B56E /* HoleMonster */ = {
+		31F864B02E5FE0280012B56E /* MyTilePuzzle */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 31F864D52E5FE02A0012B56E /* Build configuration list for PBXNativeTarget "HoleMonster" */;
+			buildConfigurationList = 31F864D52E5FE02A0012B56E /* Build configuration list for PBXNativeTarget "MyTilePuzzle" */;
 			buildPhases = (
 				31F864AD2E5FE0280012B56E /* Sources */,
 				31F864AE2E5FE0280012B56E /* Frameworks */,
@@ -140,18 +140,18 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				31F864B32E5FE0280012B56E /* HoleMonster */,
+				31F864B32E5FE0280012B56E /* MyTilePuzzle */,
 			);
-			name = HoleMonster;
+			name = MyTilePuzzle;
 			packageProductDependencies = (
 			);
-			productName = HoleMonster;
-			productReference = 31F864B12E5FE0280012B56E /* HoleMonster.app */;
+			productName = MyTilePuzzle;
+			productReference = 31F864B12E5FE0280012B56E /* MyTilePuzzle.app */;
 			productType = "com.apple.product-type.application";
 		};
-		31F864C02E5FE0290012B56E /* HoleMonsterTests */ = {
+		31F864C02E5FE0290012B56E /* MyTilePuzzleTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 31F864D82E5FE02A0012B56E /* Build configuration list for PBXNativeTarget "HoleMonsterTests" */;
+			buildConfigurationList = 31F864D82E5FE02A0012B56E /* Build configuration list for PBXNativeTarget "MyTilePuzzleTests" */;
 			buildPhases = (
 				31F864BD2E5FE0290012B56E /* Sources */,
 				31F864BE2E5FE0290012B56E /* Frameworks */,
@@ -163,18 +163,18 @@
 				31F864C32E5FE02A0012B56E /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				31F864C42E5FE02A0012B56E /* HoleMonsterTests */,
+				31F864C42E5FE02A0012B56E /* MyTilePuzzleTests */,
 			);
-			name = HoleMonsterTests;
+			name = MyTilePuzzleTests;
 			packageProductDependencies = (
 			);
-			productName = HoleMonsterTests;
-			productReference = 31F864C12E5FE0290012B56E /* HoleMonsterTests.xctest */;
+			productName = MyTilePuzzleTests;
+			productReference = 31F864C12E5FE0290012B56E /* MyTilePuzzleTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		31F864CA2E5FE02A0012B56E /* HoleMonsterUITests */ = {
+		31F864CA2E5FE02A0012B56E /* MyTilePuzzleUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 31F864DB2E5FE02A0012B56E /* Build configuration list for PBXNativeTarget "HoleMonsterUITests" */;
+			buildConfigurationList = 31F864DB2E5FE02A0012B56E /* Build configuration list for PBXNativeTarget "MyTilePuzzleUITests" */;
 			buildPhases = (
 				31F864C72E5FE02A0012B56E /* Sources */,
 				31F864C82E5FE02A0012B56E /* Frameworks */,
@@ -186,13 +186,13 @@
 				31F864CD2E5FE02A0012B56E /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				31F864CE2E5FE02A0012B56E /* HoleMonsterUITests */,
+				31F864CE2E5FE02A0012B56E /* MyTilePuzzleUITests */,
 			);
-			name = HoleMonsterUITests;
+			name = MyTilePuzzleUITests;
 			packageProductDependencies = (
 			);
-			productName = HoleMonsterUITests;
-			productReference = 31F864CB2E5FE02A0012B56E /* HoleMonsterUITests.xctest */;
+			productName = MyTilePuzzleUITests;
+			productReference = 31F864CB2E5FE02A0012B56E /* MyTilePuzzleUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -218,7 +218,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 31F864AC2E5FE0280012B56E /* Build configuration list for PBXProject "HoleMonster" */;
+			buildConfigurationList = 31F864AC2E5FE0280012B56E /* Build configuration list for PBXProject "MyTilePuzzle" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -232,9 +232,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				31F864B02E5FE0280012B56E /* HoleMonster */,
-				31F864C02E5FE0290012B56E /* HoleMonsterTests */,
-				31F864CA2E5FE02A0012B56E /* HoleMonsterUITests */,
+				31F864B02E5FE0280012B56E /* MyTilePuzzle */,
+				31F864C02E5FE0290012B56E /* MyTilePuzzleTests */,
+				31F864CA2E5FE02A0012B56E /* MyTilePuzzleUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -290,12 +290,12 @@
 /* Begin PBXTargetDependency section */
 		31F864C32E5FE02A0012B56E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 31F864B02E5FE0280012B56E /* HoleMonster */;
+			target = 31F864B02E5FE0280012B56E /* MyTilePuzzle */;
 			targetProxy = 31F864C22E5FE02A0012B56E /* PBXContainerItemProxy */;
 		};
 		31F864CD2E5FE02A0012B56E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 31F864B02E5FE0280012B56E /* HoleMonster */;
+			target = 31F864B02E5FE0280012B56E /* MyTilePuzzle */;
 			targetProxy = 31F864CC2E5FE02A0012B56E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -422,7 +422,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = HoleMonster/HoleMonster.entitlements;
+				CODE_SIGN_ENTITLEMENTS = MyTilePuzzle/MyTilePuzzle.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -430,7 +430,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = HoleMonster/Info.plist;
+				INFOPLIST_FILE = MyTilePuzzle/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to show you on the map and for gameplay";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -447,7 +447,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = hqn.HoleMonster;
+				PRODUCT_BUNDLE_IDENTIFIER = hqn.MyTilePuzzle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
@@ -464,7 +464,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = HoleMonster/HoleMonster.entitlements;
+				CODE_SIGN_ENTITLEMENTS = MyTilePuzzle/MyTilePuzzle.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -472,7 +472,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = HoleMonster/Info.plist;
+				INFOPLIST_FILE = MyTilePuzzle/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to show you on the map and for gameplay";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -489,7 +489,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = hqn.HoleMonster;
+				PRODUCT_BUNDLE_IDENTIFIER = hqn.MyTilePuzzle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
@@ -512,14 +512,14 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MACOSX_DEPLOYMENT_TARGET = 15.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = hqn.HoleMonsterTests;
+				PRODUCT_BUNDLE_IDENTIFIER = hqn.MyTilePuzzleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HoleMonster.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HoleMonster";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyTilePuzzle.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MyTilePuzzle";
 				XROS_DEPLOYMENT_TARGET = 2.5;
 			};
 			name = Debug;
@@ -535,14 +535,14 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MACOSX_DEPLOYMENT_TARGET = 15.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = hqn.HoleMonsterTests;
+				PRODUCT_BUNDLE_IDENTIFIER = hqn.MyTilePuzzleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HoleMonster.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HoleMonster";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyTilePuzzle.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MyTilePuzzle";
 				XROS_DEPLOYMENT_TARGET = 2.5;
 			};
 			name = Release;
@@ -557,14 +557,14 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MACOSX_DEPLOYMENT_TARGET = 15.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = hqn.HoleMonsterUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = hqn.MyTilePuzzleUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_TARGET_NAME = HoleMonster;
+				TEST_TARGET_NAME = MyTilePuzzle;
 				XROS_DEPLOYMENT_TARGET = 2.5;
 			};
 			name = Debug;
@@ -579,14 +579,14 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MACOSX_DEPLOYMENT_TARGET = 15.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = hqn.HoleMonsterUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = hqn.MyTilePuzzleUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_TARGET_NAME = HoleMonster;
+				TEST_TARGET_NAME = MyTilePuzzle;
 				XROS_DEPLOYMENT_TARGET = 2.5;
 			};
 			name = Release;
@@ -594,7 +594,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		31F864AC2E5FE0280012B56E /* Build configuration list for PBXProject "HoleMonster" */ = {
+		31F864AC2E5FE0280012B56E /* Build configuration list for PBXProject "MyTilePuzzle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				31F864D32E5FE02A0012B56E /* Debug */,
@@ -603,7 +603,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		31F864D52E5FE02A0012B56E /* Build configuration list for PBXNativeTarget "HoleMonster" */ = {
+		31F864D52E5FE02A0012B56E /* Build configuration list for PBXNativeTarget "MyTilePuzzle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				31F864D62E5FE02A0012B56E /* Debug */,
@@ -612,7 +612,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		31F864D82E5FE02A0012B56E /* Build configuration list for PBXNativeTarget "HoleMonsterTests" */ = {
+		31F864D82E5FE02A0012B56E /* Build configuration list for PBXNativeTarget "MyTilePuzzleTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				31F864D92E5FE02A0012B56E /* Debug */,
@@ -621,7 +621,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		31F864DB2E5FE02A0012B56E /* Build configuration list for PBXNativeTarget "HoleMonsterUITests" */ = {
+		31F864DB2E5FE02A0012B56E /* Build configuration list for PBXNativeTarget "MyTilePuzzleUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				31F864DC2E5FE02A0012B56E /* Debug */,

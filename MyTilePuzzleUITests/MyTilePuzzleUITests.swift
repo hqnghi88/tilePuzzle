@@ -1,13 +1,13 @@
 //
-//  HoleMonsterUITests.swift
-//  HoleMonsterUITests
+//  MyTilePuzzleUITests.swift
+//  MyTilePuzzleUITests
 //
 //  Created by Huỳnh Quang Nghi on 28/8/25.
 //
 
 import XCTest
 
-final class HoleMonsterUITests: XCTestCase {
+final class MyTilePuzzleUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

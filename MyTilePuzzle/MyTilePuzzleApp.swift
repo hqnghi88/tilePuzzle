@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct HoleMonsterApp: App {
+struct MyTilePuzzleApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
