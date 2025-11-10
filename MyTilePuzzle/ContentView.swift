@@ -76,21 +76,34 @@ extension Direction {
 class GameViewModel: ObservableObject {
     @Published var grid: [[Tile]]
     @Published var isGameWon = false
-    let gridSize = 4
-    let source = [0, 0]
-    let destination = [3, 3]
+    @Published var level = 1
+    
+    var gridSize: Int {
+        level + 2
+    }
+    
+    var source: [Int] {
+        [0, 0]
+    }
+    
+    var destination: [Int] {
+        [gridSize - 1, gridSize - 1]
+    }
 
     init() {
-        grid = Array(repeating: Array(repeating: Tile(type: .empty), count: gridSize), count: gridSize)
+        self.grid = []
         generateRandomGrid()
     }
 
     func generateRandomGrid() {
         isGameWon = false
         
+        // Start with a fresh grid
+        grid = Array(repeating: Array(repeating: Tile(type: .empty), count: gridSize), count: gridSize)
+        
         let path = generateSolutionPath()
-        var newGrid = Array(repeating: Array(repeating: Tile(type: .empty), count: gridSize), count: gridSize)
 
+        // Create the path tiles
         for (i, pos) in path.enumerated() {
             let r = pos[0]
             let c = pos[1]
@@ -113,19 +126,24 @@ class GameViewModel: ObservableObject {
             }
             
             let (type, rotation) = tileTypeAndRotation(for: connections)
-            newGrid[r][c] = Tile(type: type, rotation: rotation)
+            grid[r][c] = Tile(type: type, rotation: rotation)
         }
         
+        // Randomly rotate all tiles on the path
         for r in 0..<gridSize {
             for c in 0..<gridSize {
-                if newGrid[r][c].type != .empty {
-                    newGrid[r][c].rotation = [0.0, 90.0, 180.0, 270.0].randomElement()!
+                if grid[r][c].type != .empty {
+                    grid[r][c].rotation = [0.0, 90.0, 180.0, 270.0].randomElement()!
                 }
             }
         }
         
-        self.grid = newGrid
         checkWinCondition()
+    }
+    
+    func nextLevel() {
+        level += 1
+        generateRandomGrid()
     }
     
     private func generateSolutionPath() -> [[Int]] {
@@ -154,7 +172,7 @@ class GameViewModel: ObservableObject {
             return false
         }
         
-        findPath(from: source)
+        _ = findPath(from: source)
         return path
     }
     
@@ -327,7 +345,7 @@ struct ContentView: View {
                 .ignoresSafeArea()
             
             VStack {
-                Text("Connected Grid Game")
+                Text("Level \(viewModel.level)")
                     .font(.system(size: 36, weight: .bold, design: .rounded))
                     .foregroundColor(.white)
                     .padding()
@@ -355,14 +373,15 @@ struct ContentView: View {
 
 
                 if viewModel.isGameWon {
-                    Text("You Win!")
-                        .font(.system(size: 50, weight: .bold, design: .rounded))
-                        .foregroundColor(.white)
-                        .padding(20)
-                        .background(.green.opacity(0.8))
-                        .cornerRadius(20)
-                        .shadow(radius: 10)
-                        .transition(.scale.animation(.spring()))
+                    Button("Next Level") {
+                        withAnimation {
+                            viewModel.nextLevel()
+                        }
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.green)
+                    .padding()
+                    .shadow(radius: 5)
                 }
 
                 Button("Reset") {
