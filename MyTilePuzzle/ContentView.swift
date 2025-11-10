@@ -20,7 +20,7 @@ struct Tile: Identifiable {
             return []
         }
         
-        let effectiveRotation = Int(rotation / 90) % 4
+        let effectiveRotation = (Int(rotation / 90) % 4 + 4) % 4
         
         let rotatedConnections = baseConnections.map { (direction: Direction) -> Direction in
             var rotatedDirection = direction
@@ -195,9 +195,6 @@ class GameViewModel: ObservableObject {
     func rotateTile(at row: Int, col: Int) {
         if grid[row][col].type != .empty {
             grid[row][col].rotation += 90
-            if grid[row][col].rotation >= 360 {
-                grid[row][col].rotation = 0
-            }
             checkWinCondition()
         }
     }
