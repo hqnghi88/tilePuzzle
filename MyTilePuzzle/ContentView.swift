@@ -276,25 +276,18 @@ struct TileShape: Shape {
 
         switch type {
         case .corner:
-            path.move(to: CGPoint(x: center.x, y: center.y - halfSize))
-            path.addLine(to: center)
-            path.addLine(to: CGPoint(x: center.x - halfSize, y: center.y))
+            path.addPath(Capsule(style: .continuous).path(in: CGRect(x: center.x - halfSize, y: center.y - 5, width: halfSize, height: 10)))
+            path.addPath(Capsule(style: .continuous).path(in: CGRect(x: center.x - 5, y: center.y - halfSize, width: 10, height: halfSize)))
         case .straight:
-            path.move(to: CGPoint(x: center.x, y: center.y - halfSize))
-            path.addLine(to: CGPoint(x: center.x, y: center.y + halfSize))
+            path.addPath(Capsule(style: .continuous).path(in: CGRect(x: center.x - 5, y: center.y - halfSize, width: 10, height: halfSize * 2)))
         case .tJunction:
-            path.move(to: CGPoint(x: center.x - halfSize, y: center.y))
-            path.addLine(to: CGPoint(x: center.x + halfSize, y: center.y))
-            path.move(to: center)
-            path.addLine(to: CGPoint(x: center.x, y: center.y - halfSize))
+            path.addPath(Capsule(style: .continuous).path(in: CGRect(x: center.x - halfSize, y: center.y - 5, width: halfSize * 2, height: 10)))
+            path.addPath(Capsule(style: .continuous).path(in: CGRect(x: center.x - 5, y: center.y - halfSize, width: 10, height: halfSize)))
         case .cross:
-            path.move(to: CGPoint(x: center.x, y: center.y - halfSize))
-            path.addLine(to: CGPoint(x: center.x, y: center.y + halfSize))
-            path.move(to: CGPoint(x: center.x - halfSize, y: center.y))
-            path.addLine(to: CGPoint(x: center.x + halfSize, y: center.y))
+            path.addPath(Capsule(style: .continuous).path(in: CGRect(x: center.x - halfSize, y: center.y - 5, width: halfSize * 2, height: 10)))
+            path.addPath(Capsule(style: .continuous).path(in: CGRect(x: center.x - 5, y: center.y - halfSize, width: 10, height: halfSize * 2)))
         case .deadEnd:
-            path.move(to: center)
-            path.addLine(to: CGPoint(x: center.x, y: center.y - halfSize))
+            path.addPath(Capsule(style: .continuous).path(in: CGRect(x: center.x - 5, y: center.y - halfSize, width: 10, height: halfSize)))
         case .empty:
             break
         }
@@ -310,13 +303,21 @@ struct TileView: View {
     let isDestination: Bool
 
     var body: some View {
-        let backgroundColor = isSource ? Color.blue.opacity(0.5) : (isDestination ? Color.green.opacity(0.5) : Color.white)
-        TileShape(type: tile.type)
-            .stroke(Color.blue, style: StrokeStyle(lineWidth: 8, lineCap: .round))
-            .rotationEffect(.degrees(tile.rotation))
-            .frame(width: 50, height: 50)
-            .background(backgroundColor)
-            .border(Color.black, width: 1)
+        let backgroundColor = isSource ? Color.blue.opacity(0.5) : (isDestination ? Color.green.opacity(0.5) : Color.clear)
+        let pipeColor = LinearGradient(colors: [.cyan, .blue], startPoint: .top, endPoint: .bottom)
+        
+        ZStack {
+            backgroundColor
+            
+            TileShape(type: tile.type)
+                .fill(pipeColor)
+                .rotationEffect(.degrees(tile.rotation))
+                .animation(.easeInOut, value: tile.rotation)
+        }
+        .frame(width: 50, height: 50)
+        .background(.white.opacity(0.1))
+        .cornerRadius(10)
+        .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 5)
     }
 }
 
@@ -324,40 +325,59 @@ struct ContentView: View {
     @StateObject private var viewModel = GameViewModel()
 
     var body: some View {
-        VStack {
-            Text("Connected Grid Game")
-                .font(.largeTitle)
-                .padding()
+        ZStack {
+            LinearGradient(colors: [.blue.opacity(0.6), .purple.opacity(0.6)], startPoint: .top, endPoint: .bottom)
+                .ignoresSafeArea()
+            
+            VStack {
+                Text("Connected Grid Game")
+                    .font(.system(size: 36, weight: .bold, design: .rounded))
+                    .foregroundColor(.white)
+                    .padding()
+                    .shadow(radius: 10)
 
-            Grid(horizontalSpacing: 1, verticalSpacing: 1) {
-                ForEach(0..<viewModel.gridSize, id: \.self) { row in
-                    GridRow {
-                        ForEach(0..<viewModel.gridSize, id: \.self) { col in
-                            let isSource = row == viewModel.source[0] && col == viewModel.source[1]
-                            let isDestination = row == viewModel.destination[0] && col == viewModel.destination[1]
-                            TileView(tile: viewModel.grid[row][col], isSource: isSource, isDestination: isDestination)
-                                .onTapGesture {
-                                    viewModel.rotateTile(at: row, col: col)
-                                }
+                Grid(horizontalSpacing: 5, verticalSpacing: 5) {
+                    ForEach(0..<viewModel.gridSize, id: \.self) { row in
+                        GridRow {
+                            ForEach(0..<viewModel.gridSize, id: \.self) { col in
+                                let isSource = row == viewModel.source[0] && col == viewModel.source[1]
+                                let isDestination = row == viewModel.destination[0] && col == viewModel.destination[1]
+                                TileView(tile: viewModel.grid[row][col], isSource: isSource, isDestination: isDestination)
+                                    .onTapGesture {
+                                        withAnimation {
+                                            viewModel.rotateTile(at: row, col: col)
+                                        }
+                                    }
+                            }
                         }
                     }
                 }
-            }
-            .padding()
-            .background(Color.gray)
+                .padding()
+                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 20))
+                .shadow(radius: 10)
 
 
-            if viewModel.isGameWon {
-                Text("You Win!")
-                    .font(.largeTitle)
-                    .foregroundColor(.green)
-                    .padding()
-            }
+                if viewModel.isGameWon {
+                    Text("You Win!")
+                        .font(.system(size: 50, weight: .bold, design: .rounded))
+                        .foregroundColor(.white)
+                        .padding(20)
+                        .background(.green.opacity(0.8))
+                        .cornerRadius(20)
+                        .shadow(radius: 10)
+                        .transition(.scale.animation(.spring()))
+                }
 
-            Button("Reset") {
-                viewModel.generateRandomGrid()
+                Button("Reset") {
+                    withAnimation {
+                        viewModel.generateRandomGrid()
+                    }
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.purple)
+                .padding()
+                .shadow(radius: 5)
             }
-            .padding()
         }
     }
 }
