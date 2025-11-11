@@ -140,7 +140,7 @@ class GameViewModel: ObservableObject {
             }
         }
         
-        checkWinCondition()
+        updateGameState()
     }
     
     func nextLevel() {
@@ -215,52 +215,11 @@ class GameViewModel: ObservableObject {
     func rotateTile(at row: Int, col: Int) {
         if grid[row][col].type != .empty {
             grid[row][col].rotation += 90
-            checkWinCondition()
+            updateGameState()
         }
     }
 
-    private func findConnectedPath() -> [[Int]]? {
-        var path: [[Int]] = []
-        var visited = Set<[Int]>()
-        
-        func dfs(from: [Int]) -> Bool {
-            visited.insert(from)
-            path.append(from)
-            
-            if from == destination {
-                return true
-            }
-            
-            let r = from[0], c = from[1]
-            let tile = grid[r][c]
-            
-            for direction in tile.connections {
-                var nr = r, nc = c
-                switch direction {
-                case .up: nr -= 1; case .down: nr += 1; case .left: nc -= 1; case .right: nc += 1
-                }
-
-                if nr >= 0, nr < gridSize, nc >= 0, nc < gridSize, !visited.contains([nr, nc]) {
-                    if grid[nr][nc].connections.contains(direction.opposite) {
-                        if dfs(from: [nr, nc]) {
-                            return true
-                        }
-                    }
-                }
-            }
-            
-            path.removeLast()
-            return false
-        }
-        
-        if dfs(from: source) {
-            return path
-        }
-        
-        return nil
-    }
-
-    private func checkWinCondition() {
+    private func updateGameState() {
         var component = Set<[Int]>()
         var queue = [source]
         component.insert(source)
@@ -284,8 +243,10 @@ class GameViewModel: ObservableObject {
                 }
             }
         }
+        
+        self.connectedPath = queue
 
-        guard component.contains(destination) else { isGameWon = false; connectedPath = nil; return }
+        guard component.contains(destination) else { isGameWon = false; return }
 
         for pos in component {
             let r = pos[0], c = pos[1]
@@ -304,22 +265,21 @@ class GameViewModel: ObservableObject {
             }
 
             if pos == source || pos == destination {
-                if internalConnections != 1 { isGameWon = false; connectedPath = nil; return }
+                if internalConnections != 1 { isGameWon = false; return }
             } else {
-                if internalConnections != 2 { isGameWon = false; connectedPath = nil; return }
+                if internalConnections != 2 { isGameWon = false; return }
             }
         }
         
         for r in 0..<gridSize {
             for c in 0..<gridSize {
                 if !component.contains([r,c]) && grid[r][c].type != .empty {
-                    isGameWon = false; connectedPath = nil; return
+                    isGameWon = false; return
                 }
             }
         }
 
         isGameWon = true
-        connectedPath = findConnectedPath()
     }
 }
 
