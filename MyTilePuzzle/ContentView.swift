@@ -342,10 +342,13 @@ struct TileFlowShape: Shape {
         
         path.move(to: entryPoint)
         
-        if type == .straight {
+                if type == .straight {
             path.addLine(to: exitPoint)
-        } else {
-            path.addQuadCurve(to: exitPoint, control: center)
+        } else if type == .corner {
+            path.addLine(to: center)
+            path.addLine(to: exitPoint)
+        } else { // For other types like tJunction, cross, deadEnd, we can default to straight line for now
+            path.addLine(to: exitPoint)
         }
         
         return path
