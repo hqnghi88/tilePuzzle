@@ -316,6 +316,51 @@ struct TileShape: Shape {
 }
 
 
+struct TileFlowShape: Shape {
+    let type: TileType
+    let entryDir: Direction?
+    let exitDir: Direction?
+    
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        let center = CGPoint(x: rect.midX, y: rect.midY)
+        
+        guard let entry = entryDir, let exit = exitDir else {
+            // Handle start and end of the path
+            if entryDir == nil, let exitDir = exitDir { // Start
+                path.move(to: center)
+                path.addLine(to: point(for: exitDir, in: rect))
+            } else if exitDir == nil, let entryDir = entryDir { // End
+                path.move(to: point(for: entryDir, in: rect))
+                path.addLine(to: center)
+            }
+            return path
+        }
+        
+        let entryPoint = point(for: entry, in: rect)
+        let exitPoint = point(for: exit, in: rect)
+        
+        path.move(to: entryPoint)
+        
+        if type == .straight {
+            path.addLine(to: exitPoint)
+        } else {
+            path.addQuadCurve(to: exitPoint, control: center)
+        }
+        
+        return path
+    }
+    
+    private func point(for direction: Direction, in rect: CGRect) -> CGPoint {
+        switch direction {
+        case .up: return CGPoint(x: rect.midX, y: rect.minY)
+        case .down: return CGPoint(x: rect.midX, y: rect.maxY)
+        case .left: return CGPoint(x: rect.minX, y: rect.midY)
+        case .right: return CGPoint(x: rect.maxX, y: rect.midY)
+        }
+    }
+}
+
 struct TileView: View {
     let tile: Tile
     let isSource: Bool
@@ -323,6 +368,8 @@ struct TileView: View {
     let size: CGFloat
     let isAnimated: Bool
     let animationDelay: Double
+    let entryDir: Direction?
+    let exitDir: Direction?
 
     @State private var flow: CGFloat = 0
 
@@ -339,8 +386,8 @@ struct TileView: View {
                 .animation(.easeInOut, value: tile.rotation)
 
             if isAnimated {
-                TileShape(type: tile.type)
-                    .trim(from: flow, to: flow + 0.3)
+                TileFlowShape(type: tile.type, entryDir: entryDir, exitDir: exitDir)
+                    .trim(from: 0, to: flow)
                     .stroke(Color.white.opacity(0.8), style: StrokeStyle(lineWidth: size / 6, lineCap: .round))
                     .rotationEffect(.degrees(tile.rotation))
                     .onAppear {
@@ -372,76 +419,105 @@ struct ContentView: View {
     @StateObject private var viewModel = GameViewModel()
 
     var body: some View {
-        GeometryReader { geometry in
-            let horizontalPadding: CGFloat = 20
-            let availableWidth = geometry.size.width - 2 * horizontalPadding
-            let spacing = availableWidth / CGFloat(viewModel.gridSize * 10)
-            let tileSize = (availableWidth - (spacing * CGFloat(viewModel.gridSize - 1))) / CGFloat(viewModel.gridSize)
-            
-            ZStack {
-                LinearGradient(colors: [.blue.opacity(0.6), .purple.opacity(0.6)], startPoint: .top, endPoint: .bottom)
-                    .ignoresSafeArea()
+        Group {
+            GeometryReader { geometry in
+                let horizontalPadding: CGFloat = 20
+                let availableWidth = geometry.size.width - 2 * horizontalPadding
+                let spacing = availableWidth / CGFloat(viewModel.gridSize * 10)
+                let tileSize = (availableWidth - (spacing * CGFloat(viewModel.gridSize - 1))) / CGFloat(viewModel.gridSize)
                 
-                VStack {
-                    Text("Level \(viewModel.level)")
-                        .font(.system(size: 36, weight: .bold, design: .rounded))
-                        .foregroundColor(.white)
-                        .padding()
-                        .shadow(radius: 10)
+                ZStack {
+                    LinearGradient(colors: [.blue.opacity(0.6), .purple.opacity(0.6)], startPoint: .top, endPoint: .bottom)
+                        .ignoresSafeArea()
+                    
+                    VStack {
+                        Text("Level \(viewModel.level)")
+                            .font(.system(size: 36, weight: .bold, design: .rounded))
+                            .foregroundColor(.white)
+                            .padding()
+                            .shadow(radius: 10)
 
-                    Grid(horizontalSpacing: spacing, verticalSpacing: spacing) {
-                        ForEach(0..<viewModel.gridSize, id: \.self) { row in
-                            GridRow {
-                                ForEach(0..<viewModel.gridSize, id: \.self) { col in
-                                    let isSource = row == viewModel.source[0] && col == viewModel.source[1]
-                                    let isDestination = row == viewModel.destination[0] && col == viewModel.destination[1]
-                                    let pathIndex = viewModel.connectedPath?.firstIndex(of: [row, col])
-
-                                    TileView(tile: viewModel.grid[row][col],
-                                             isSource: isSource,
-                                             isDestination: isDestination,
-                                             size: tileSize,
-                                             isAnimated: pathIndex != nil,
-                                             animationDelay: Double(pathIndex ?? 0) * 0.1)
-                                        .onTapGesture {
-                                            withAnimation {
-                                                viewModel.rotateTile(at: row, col: col)
+                        Grid(horizontalSpacing: spacing, verticalSpacing: spacing) {
+                            ForEach(0..<viewModel.gridSize, id: \.self) { row in
+                                GridRow {
+                                    ForEach(0..<viewModel.gridSize, id: \.self) { col in
+                                        let isSource = row == viewModel.source[0] && col == viewModel.source[1]
+                                        let isDestination = row == viewModel.destination[0] && col == viewModel.destination[1]
+                                        let animParams = getAnimationParameters(for: row, col: col, viewModel: viewModel)
+                                        
+                                        TileView(tile: viewModel.grid[row][col],
+                                                 isSource: isSource,
+                                                 isDestination: isDestination,
+                                                 size: tileSize,
+                                                 isAnimated: animParams.isAnimated,
+                                                 animationDelay: animParams.delay,
+                                                 entryDir: animParams.entry,
+                                                 exitDir: animParams.exit)
+                                            .onTapGesture {
+                                                withAnimation {
+                                                    viewModel.rotateTile(at: row, col: col)
+                                                }
                                             }
-                                        }
+                                    }
                                 }
                             }
                         }
-                    }
-                    .padding(horizontalPadding)
-                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 20))
-                    .shadow(radius: 10)
+                        .padding(horizontalPadding)
+                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 20))
+                        .shadow(radius: 10)
 
 
-                    if viewModel.isGameWon {
-                        Button("Next Level") {
+                        if viewModel.isGameWon {
+                            Button("Next Level") {
+                                withAnimation {
+                                    viewModel.nextLevel()
+                                }
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .tint(.green)
+                            .padding()
+                            .shadow(radius: 5)
+                        }
+
+                        Button("Reset") {
                             withAnimation {
-                                viewModel.nextLevel()
+                                viewModel.generateRandomGrid()
                             }
                         }
                         .buttonStyle(.borderedProminent)
-                        .tint(.green)
+                        .tint(.purple)
                         .padding()
                         .shadow(radius: 5)
                     }
-
-                    Button("Reset") {
-                        withAnimation {
-                            viewModel.generateRandomGrid()
-                        }
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .tint(.purple)
-                    .padding()
-                    .shadow(radius: 5)
                 }
             }
         }
     }
+}
+
+private func getAnimationParameters(for row: Int, col: Int, viewModel: GameViewModel) -> (isAnimated: Bool, delay: Double, entry: Direction?, exit: Direction?) {
+    let path = viewModel.connectedPath ?? []
+    let pathIndex = path.firstIndex(of: [row, col])
+
+    var entryDir: Direction? = nil
+    if let index = pathIndex, index > 0 {
+        let prevPos = path[index - 1]
+        if prevPos[0] < row { entryDir = .up }
+        else if prevPos[0] > row { entryDir = .down }
+        else if prevPos[1] < col { entryDir = .left }
+        else { entryDir = .right }
+    }
+
+    var exitDir: Direction? = nil
+    if let index = pathIndex, index < path.count - 1 {
+        let nextPos = path[index + 1]
+        if nextPos[0] < row { exitDir = .up }
+        else if nextPos[0] > row { exitDir = .down }
+        else if nextPos[1] < col { exitDir = .left }
+        else { exitDir = .right }
+    }
+    
+    return (pathIndex != nil, Double(pathIndex ?? 0) * 0.1, entryDir, exitDir)
 }
 
 struct ContentView_Previews: PreviewProvider {
