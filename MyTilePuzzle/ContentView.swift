@@ -389,7 +389,6 @@ struct TileView: View {
                 TileFlowShape(type: tile.type, entryDir: entryDir, exitDir: exitDir)
                     .trim(from: 0, to: flow)
                     .stroke(Color.white.opacity(0.8), style: StrokeStyle(lineWidth: size / 6, lineCap: .round))
-                    .rotationEffect(.degrees(tile.rotation))
                     .onAppear {
                         self.flow = 0
                         withAnimation(Animation.linear(duration: 0.2).delay(animationDelay)) {
