@@ -77,6 +77,7 @@ class GameViewModel: ObservableObject {
     @Published var grid: [[Tile]]
     @Published var isGameWon = false
     @Published var level = 1
+    @Published var connectedPath: [[Int]]? = nil
     
     var gridSize: Int {
         level + 2
@@ -97,6 +98,7 @@ class GameViewModel: ObservableObject {
 
     func generateRandomGrid() {
         isGameWon = false
+        connectedPath = nil
         
         // Start with a fresh grid
         grid = Array(repeating: Array(repeating: Tile(type: .empty), count: gridSize), count: gridSize)
@@ -217,6 +219,47 @@ class GameViewModel: ObservableObject {
         }
     }
 
+    private func findConnectedPath() -> [[Int]]? {
+        var path: [[Int]] = []
+        var visited = Set<[Int]>()
+        
+        func dfs(from: [Int]) -> Bool {
+            visited.insert(from)
+            path.append(from)
+            
+            if from == destination {
+                return true
+            }
+            
+            let r = from[0], c = from[1]
+            let tile = grid[r][c]
+            
+            for direction in tile.connections {
+                var nr = r, nc = c
+                switch direction {
+                case .up: nr -= 1; case .down: nr += 1; case .left: nc -= 1; case .right: nc += 1
+                }
+
+                if nr >= 0, nr < gridSize, nc >= 0, nc < gridSize, !visited.contains([nr, nc]) {
+                    if grid[nr][nc].connections.contains(direction.opposite) {
+                        if dfs(from: [nr, nc]) {
+                            return true
+                        }
+                    }
+                }
+            }
+            
+            path.removeLast()
+            return false
+        }
+        
+        if dfs(from: source) {
+            return path
+        }
+        
+        return nil
+    }
+
     private func checkWinCondition() {
         var component = Set<[Int]>()
         var queue = [source]
@@ -242,7 +285,7 @@ class GameViewModel: ObservableObject {
             }
         }
 
-        guard component.contains(destination) else { isGameWon = false; return }
+        guard component.contains(destination) else { isGameWon = false; connectedPath = nil; return }
 
         for pos in component {
             let r = pos[0], c = pos[1]
@@ -261,21 +304,22 @@ class GameViewModel: ObservableObject {
             }
 
             if pos == source || pos == destination {
-                if internalConnections != 1 { isGameWon = false; return }
+                if internalConnections != 1 { isGameWon = false; connectedPath = nil; return }
             } else {
-                if internalConnections != 2 { isGameWon = false; return }
+                if internalConnections != 2 { isGameWon = false; connectedPath = nil; return }
             }
         }
         
         for r in 0..<gridSize {
             for c in 0..<gridSize {
                 if !component.contains([r,c]) && grid[r][c].type != .empty {
-                    isGameWon = false; return
+                    isGameWon = false; connectedPath = nil; return
                 }
             }
         }
 
         isGameWon = true
+        connectedPath = findConnectedPath()
     }
 }
 
@@ -317,6 +361,10 @@ struct TileView: View {
     let isSource: Bool
     let isDestination: Bool
     let size: CGFloat
+    let isAnimated: Bool
+    let animationDelay: Double
+
+    @State private var flow: CGFloat = 0
 
     var body: some View {
         let backgroundColor = isSource ? Color.blue.opacity(0.5) : (isDestination ? Color.green.opacity(0.5) : Color.clear)
@@ -329,6 +377,21 @@ struct TileView: View {
                 .fill(pipeColor)
                 .rotationEffect(.degrees(tile.rotation))
                 .animation(.easeInOut, value: tile.rotation)
+
+            if isAnimated {
+                TileShape(type: tile.type)
+                    .trim(from: flow, to: flow + 0.3)
+                    .stroke(Color.white.opacity(0.8), style: StrokeStyle(lineWidth: size / 6, lineCap: .round))
+                    .rotationEffect(.degrees(tile.rotation))
+                    .onAppear {
+                        withAnimation(Animation.linear(duration: 1.5).repeatForever(autoreverses: false).delay(animationDelay)) {
+                            self.flow = 1.0
+                        }
+                    }
+                    .onDisappear {
+                        self.flow = 0
+                    }
+            }
         }
         .frame(width: size, height: size)
         .background(.white.opacity(0.1))
@@ -364,7 +427,14 @@ struct ContentView: View {
                                 ForEach(0..<viewModel.gridSize, id: \.self) { col in
                                     let isSource = row == viewModel.source[0] && col == viewModel.source[1]
                                     let isDestination = row == viewModel.destination[0] && col == viewModel.destination[1]
-                                    TileView(tile: viewModel.grid[row][col], isSource: isSource, isDestination: isDestination, size: tileSize)
+                                    let pathIndex = viewModel.connectedPath?.firstIndex(of: [row, col])
+
+                                    TileView(tile: viewModel.grid[row][col],
+                                             isSource: isSource,
+                                             isDestination: isDestination,
+                                             size: tileSize,
+                                             isAnimated: pathIndex != nil,
+                                             animationDelay: Double(pathIndex ?? 0) * 0.1)
                                         .onTapGesture {
                                             withAnimation {
                                                 viewModel.rotateTile(at: row, col: col)
