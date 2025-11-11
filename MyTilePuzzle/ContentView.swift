@@ -342,7 +342,11 @@ struct ContentView: View {
 
     var body: some View {
         GeometryReader { geometry in
-            let tileSize = geometry.size.width / CGFloat(viewModel.gridSize + 1)
+            let horizontalPadding: CGFloat = 20
+            let availableWidth = geometry.size.width - 2 * horizontalPadding
+            let spacing = availableWidth / CGFloat(viewModel.gridSize * 10)
+            let tileSize = (availableWidth - (spacing * CGFloat(viewModel.gridSize - 1))) / CGFloat(viewModel.gridSize)
+            
             ZStack {
                 LinearGradient(colors: [.blue.opacity(0.6), .purple.opacity(0.6)], startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea()
@@ -354,7 +358,7 @@ struct ContentView: View {
                         .padding()
                         .shadow(radius: 10)
 
-                    Grid(horizontalSpacing: tileSize / 10, verticalSpacing: tileSize / 10) {
+                    Grid(horizontalSpacing: spacing, verticalSpacing: spacing) {
                         ForEach(0..<viewModel.gridSize, id: \.self) { row in
                             GridRow {
                                 ForEach(0..<viewModel.gridSize, id: \.self) { col in
@@ -370,7 +374,7 @@ struct ContentView: View {
                             }
                         }
                     }
-                    .padding()
+                    .padding(horizontalPadding)
                     .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 20))
                     .shadow(radius: 10)
 
