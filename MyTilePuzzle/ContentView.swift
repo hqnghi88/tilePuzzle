@@ -344,12 +344,20 @@ struct TileView: View {
                     .stroke(Color.white.opacity(0.8), style: StrokeStyle(lineWidth: size / 6, lineCap: .round))
                     .rotationEffect(.degrees(tile.rotation))
                     .onAppear {
-                        withAnimation(Animation.linear(duration: 1.5).repeatForever(autoreverses: false).delay(animationDelay)) {
+                        self.flow = 0
+                        withAnimation(Animation.linear(duration: 0.2).delay(animationDelay)) {
                             self.flow = 1.0
                         }
                     }
-                    .onDisappear {
-                        self.flow = 0
+                    .onChange(of: isAnimated) {
+                        if !isAnimated {
+                            self.flow = 0
+                        } else {
+                            self.flow = 0
+                            withAnimation(Animation.linear(duration: 0.2).delay(animationDelay)) {
+                                self.flow = 1.0
+                            }
+                        }
                     }
             }
         }
