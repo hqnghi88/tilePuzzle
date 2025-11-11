@@ -316,6 +316,7 @@ struct TileView: View {
     let tile: Tile
     let isSource: Bool
     let isDestination: Bool
+    let size: CGFloat
 
     var body: some View {
         let backgroundColor = isSource ? Color.blue.opacity(0.5) : (isDestination ? Color.green.opacity(0.5) : Color.clear)
@@ -329,7 +330,7 @@ struct TileView: View {
                 .rotationEffect(.degrees(tile.rotation))
                 .animation(.easeInOut, value: tile.rotation)
         }
-        .frame(width: 50, height: 50)
+        .frame(width: size, height: size)
         .background(.white.opacity(0.1))
         .cornerRadius(10)
         .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 5)
@@ -340,59 +341,62 @@ struct ContentView: View {
     @StateObject private var viewModel = GameViewModel()
 
     var body: some View {
-        ZStack {
-            LinearGradient(colors: [.blue.opacity(0.6), .purple.opacity(0.6)], startPoint: .top, endPoint: .bottom)
-                .ignoresSafeArea()
-            
-            VStack {
-                Text("Level \(viewModel.level)")
-                    .font(.system(size: 36, weight: .bold, design: .rounded))
-                    .foregroundColor(.white)
-                    .padding()
-                    .shadow(radius: 10)
+        GeometryReader { geometry in
+            let tileSize = geometry.size.width / CGFloat(viewModel.gridSize + 1)
+            ZStack {
+                LinearGradient(colors: [.blue.opacity(0.6), .purple.opacity(0.6)], startPoint: .top, endPoint: .bottom)
+                    .ignoresSafeArea()
+                
+                VStack {
+                    Text("Level \(viewModel.level)")
+                        .font(.system(size: 36, weight: .bold, design: .rounded))
+                        .foregroundColor(.white)
+                        .padding()
+                        .shadow(radius: 10)
 
-                Grid(horizontalSpacing: 5, verticalSpacing: 5) {
-                    ForEach(0..<viewModel.gridSize, id: \.self) { row in
-                        GridRow {
-                            ForEach(0..<viewModel.gridSize, id: \.self) { col in
-                                let isSource = row == viewModel.source[0] && col == viewModel.source[1]
-                                let isDestination = row == viewModel.destination[0] && col == viewModel.destination[1]
-                                TileView(tile: viewModel.grid[row][col], isSource: isSource, isDestination: isDestination)
-                                    .onTapGesture {
-                                        withAnimation {
-                                            viewModel.rotateTile(at: row, col: col)
+                    Grid(horizontalSpacing: tileSize / 10, verticalSpacing: tileSize / 10) {
+                        ForEach(0..<viewModel.gridSize, id: \.self) { row in
+                            GridRow {
+                                ForEach(0..<viewModel.gridSize, id: \.self) { col in
+                                    let isSource = row == viewModel.source[0] && col == viewModel.source[1]
+                                    let isDestination = row == viewModel.destination[0] && col == viewModel.destination[1]
+                                    TileView(tile: viewModel.grid[row][col], isSource: isSource, isDestination: isDestination, size: tileSize)
+                                        .onTapGesture {
+                                            withAnimation {
+                                                viewModel.rotateTile(at: row, col: col)
+                                            }
                                         }
-                                    }
+                                }
                             }
                         }
                     }
-                }
-                .padding()
-                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 20))
-                .shadow(radius: 10)
+                    .padding()
+                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 20))
+                    .shadow(radius: 10)
 
 
-                if viewModel.isGameWon {
-                    Button("Next Level") {
+                    if viewModel.isGameWon {
+                        Button("Next Level") {
+                            withAnimation {
+                                viewModel.nextLevel()
+                            }
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(.green)
+                        .padding()
+                        .shadow(radius: 5)
+                    }
+
+                    Button("Reset") {
                         withAnimation {
-                            viewModel.nextLevel()
+                            viewModel.generateRandomGrid()
                         }
                     }
                     .buttonStyle(.borderedProminent)
-                    .tint(.green)
+                    .tint(.purple)
                     .padding()
                     .shadow(radius: 5)
                 }
-
-                Button("Reset") {
-                    withAnimation {
-                        viewModel.generateRandomGrid()
-                    }
-                }
-                .buttonStyle(.borderedProminent)
-                .tint(.purple)
-                .padding()
-                .shadow(radius: 5)
             }
         }
     }
